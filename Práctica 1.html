@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div>
+
+
+<div>
+
+
+
+
+<div>
+
+
+
+<h1>¿Qué tan cerca estoy de la ubicación de mis compañeras y compañeros?</h1>
+<h4>Camila Juárez, Yesenia Aguilera, Aldo Meza, Carlos Bautista y Daniel Medina</h4>
+<h4>11/11/2020</h4>
+
+</div>
+
+
+<div>
+<h3>I. Creando nuestros datos</h3>
+<p>Primero, crearemos un vector con cada uno de los nombres de la personas y los datos de la latitus y longitud del lugar de la República Mexicana al que les gustaría viajar. Posteriormente, mediante la función <code>rbind</code> crearemos una matriz por columnas con los datos de las ubicaciones a las que nos gustaría viajar:</p>
+<pre><code>daniel&lt;-c(-98.2062, 19.0413)
+Yesenia&lt;-c(-96.7203,17.0669)
+Aldo&lt;-c(-103.38479,20.72356)
+Camila&lt;-c(-117.00371,32.5027)
+Carlos&lt;-c(-104.71667, 20.86667)
+viajes&lt;-rbind(daniel,Yesenia,<wbr>Aldo,Camila,Carlos)
+viajes</code></pre>
+<pre><code>##              [,1]     [,2]
+## daniel   -98.2062 19.04130
+## Yesenia  -96.7203 17.06690
+## Aldo    -103.3848 20.72356
+## Camila  -117.0037 32.50270
+## Carlos  -104.7167 20.86667</code></pre>
+</div>
+<div>
+<h3>II. Cambiando el nombre de nuestras columnas</h3>
+<p>Una vez que hemos creado nuestra matriz de datos, cambiaremos el nombre de nuestras columnas con la función <code>colnames</code>:</p>
+<pre><code>colnames(viajes)&lt;-c(&quot;Longitud&quot;<wbr>,&quot;Latitud&quot;)
+viajes</code></pre>
+<pre><code>##          Longitud  Latitud
+## daniel   -98.2062 19.04130
+## Yesenia  -96.7203 17.06690
+## Aldo    -103.3848 20.72356
+## Camila  -117.0037 32.50270
+## Carlos  -104.7167 20.86667</code></pre>
+</div>
+<div>
+<h3>III. Transformando nuestra matriz en un data.frame</h3>
+<p>Recuerda que para hacer gráficas con <code>ggplot</code> y mapas con <code>qmplot</code> necesitamos un data frame. Vamos a transformar nuestra matriz en un data.frame de la siguiente forma:</p>
+<pre><code>viajes&lt;-data.frame(viajes)
+viajes</code></pre>
+<pre><code>##          Longitud  Latitud
+## daniel   -98.2062 19.04130
+## Yesenia  -96.7203 17.06690
+## Aldo    -103.3848 20.72356
+## Camila  -117.0037 32.50270
+## Carlos  -104.7167 20.86667</code></pre>
+</div>
+<div>
+<h3>IV. Creando una gráfica de dispersión con nombres y puntos</h3>
+<p>Podemos crear una grafica de dispersión y usar los nombres como etiqueta si utilizamos la función <code>ggplot</code> junto con <code>geom_text</code>; además, podemos agregar puntos a nuestra gráfica con la función <code>geom_point</code>. Finalmente, si queremos que nuestra gráfica sea interactiva, utilizamos la función <code>ggplotly</code>:</p>
+<pre><code>dispersion&lt;-ggplot(viajes)+<wbr>geom_text(aes(Latitud,<wbr>Longitud),label= rownames(viajes))+geom_point(<wbr>aes(Latitud,Longitud),color= rainbow(5))
+ggplotly(dispersion)</code></pre>
+<div style="width:672px;height:480px"></div>
+
+</div>
+<div>
+<h3>V. Creando un mapa</h3>
+<p>Para crear un mapa, utilizaremos la funcion <code>qmplot</code>:</p>
+<pre><code>qmplot(Longitud, Latitud, data=viajes, color=I(rainbow(5)))</code></pre>
+<p><img width="672"></p>
+</div>
+<div>
+<h3>VI. Mapa de puntos y densidad</h3>
+<p>Podemos agregar el parámetro <code>geom = c(&quot;point&quot;,&quot;density2d&quot;)</code> para hacer un mapa de puntos y densidad:</p>
+<pre><code>qmplot(Longitud, Latitud, data=viajes, geom=c(&quot;point&quot;,&quot;density2d&quot;))</code></pre>
+<p><img width="672"></p>
+</div>
+<div>
+<h3>VII. Preguntas</h3>
+</div>
+<div>
+<h3>1.- ¿Cómo están distribuidas sus ubicaciones?</h3>
+<p>La mayoria de las ubicaciones se encuentran en el sur y solo una se encuentra en el norte.</p>
+</div>
+<div>
+<h3>2.- Si tuvieras que pensar en una función que pasara por todas sus ubicaciones, ¿qué tipo de función sería?</h3>
+<p>Seria a través de una función cubica, por ejemplo y=-x^3</p>
+</div>
+<div>
+<h3>3.- ¿Consideras que graficar la ubicación de una persona en un mapa tiene un valor económico? ¿Por qué?</h3>
+<p>Sí, ya que como sujetos económicos tenemos un constante cambio, además que la ubicación de las preferencias en el mercado son una medida estratégica para la toma de decisiones económicas.</p>
+<p>De igual manera nos sirve como medida estadística pues tener un conjunto de ubicaciones económicas nos permite conocer los centros y ciudades más importantes de un país, región o continente.</p>
+</div>
+<div>
+<h3>4.- ¿Hasta ahora qué han aprendido en el curso?</h3>
+<p>A lo largo del curso hemos visto la aplicación estrategica de las matemáticas en R, también los diferentes codigos que nos han ayudado a graficar funciones en R, en conclusión hemos visto el lenguaje básico de programación implementado en matemáticas.</p>
+<hr>
+<p style="font-size:50%">
+Esta obra fue generada mediante R en November 18, 2020 y forma parte de las actividades realizadas en las materias de <a href="https://mateytaller.github.io/" target="_blank">Matemáticas I y Taller III</a>, <a href="http://economia.unam.mx/" target="_blank">Facultad de Economía, UNAM</a>. Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">licencia de Creative Commons Reconocimiento-NoComercial-<wbr>CompartirIgual 4.0 Internacional. </a><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons (CC)</a>.<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="Licencia de Creative Commons" style="border-width:0"></a>
+</p>
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+</body></html>
